@@ -1,6 +1,7 @@
 import { component$, useStore, useStylesScoped$, $ } from "@builder.io/qwik";
-import tttCss from "./tictactoe.module.css";
-
+// Qwik CSS modules should use the ?inline suffix for useStylesScoped$
+// See: https://qwik.dev/docs/concepts/css/#css-modules--usestilesscoped
+import tttCss from "./tictactoe.module.css?inline";
 // Helper types
 type Player = "X" | "O";
 type GameMode = "local" | "ai";
@@ -51,9 +52,13 @@ function postAiMove(state: any) {
   state.current = "X";
 }
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * Tic Tac Toe main component for Qwik.
+ */
 export default component$(() => {
-  useStylesScoped$(tttCss as unknown as string); // Correct double cast for Qwik CSS module import
+  // Correct: pass string (from ?inline) to useStylesScoped$
+  useStylesScoped$(tttCss);
 
   const state = useStore({
     board: Array<Cell>(9).fill(null),
